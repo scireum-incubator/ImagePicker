@@ -4,13 +4,14 @@ protocol TopViewDelegate: class {
 
   func flashButtonDidPress(_ title: String)
   func rotateDeviceDidPress()
+  func cancelButtonDidPress()
 }
 
 open class TopView: UIView {
 
   struct Dimensions {
-    static let leftOffset: CGFloat = 11
-    static let rightOffset: CGFloat = 7
+    static let leftOffset: CGFloat = 16
+    static let rightOffset: CGFloat = -2
     static let height: CGFloat = 34
   }
 
@@ -46,6 +47,17 @@ open class TopView: UIView {
     return button
     }()
 
+  open lazy var cancelButton: UIButton = { [unowned self] in
+    let button = UIButton()
+    button.setImage(UIImage(named: "icon_close"), for: UIControlState())
+    button.tintColor = .white
+    button.imageView?.contentMode = .center
+    button.addTarget(self, action: #selector(cancelButtonDidPress(_:)), for: .touchUpInside)
+    button.contentHorizontalAlignment = .left
+
+    return button
+  }()
+
   weak var delegate: TopViewDelegate?
 
   // MARK: - Initializers
@@ -68,7 +80,7 @@ open class TopView: UIView {
   }
 
   func configure() {
-    var buttons: [UIButton] = [flashButton]
+    var buttons: [UIButton] = [cancelButton, flashButton]
 
     if configuration.canRotateCamera {
       buttons.append(rotateCamera)
@@ -115,5 +127,9 @@ open class TopView: UIView {
 
   @objc func rotateCameraButtonDidPress(_ button: UIButton) {
     delegate?.rotateDeviceDidPress()
+  }
+
+  @objc func cancelButtonDidPress(_ button: UIButton) {
+    delegate?.cancelButtonDidPress()
   }
 }
