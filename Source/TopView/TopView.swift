@@ -49,7 +49,7 @@ open class TopView: UIView {
 
   open lazy var cancelButton: UIButton = { [unowned self] in
     let button = UIButton()
-    button.setImage(UIImage(named: "icon_close"), for: UIControlState())
+    button.setImage(UIImage(named: "icon_close"), for: UIControl.State())
     button.tintColor = .white
     button.imageView?.contentMode = .center
     button.addTarget(self, action: #selector(cancelButtonDidPress(_:)), for: .touchUpInside)
